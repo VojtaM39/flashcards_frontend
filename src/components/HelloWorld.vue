@@ -107,6 +107,11 @@
         >
       </li>
     </ul>
+
+    <div class="container">
+      <div class="col-6">testj</div>
+      <div class="col-6">test</div>
+    </div>
   </div>
 </template>
 
