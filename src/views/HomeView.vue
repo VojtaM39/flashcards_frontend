@@ -25,14 +25,8 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import HelloWorld from "@/components/HelloWorld.vue";
+import { Vue } from "vue-class-component";
 
-@Options({
-  components: {
-    HelloWorld,
-  },
-})
 export default class HomeView extends Vue {}
 </script>
 
@@ -82,6 +76,7 @@ $title-outline-width: 1px;
 }
 
 .homepage-button {
+  $text-color: #000;
   $horizontal-margin: 0.25rem;
 
   width: 100%;
@@ -92,8 +87,12 @@ $title-outline-width: 1px;
   padding: 0.5rem 0;
   text-decoration: none;
   border-radius: 3px;
-  border: 2px solid #000;
-  color: #000;
+  border: 2px solid $text-color;
+  color: $text-color;
+
+  &:hover {
+    color: $text-color;
+  }
 
   &:nth-child(1) {
     margin-right: $horizontal-margin;
@@ -105,7 +104,13 @@ $title-outline-width: 1px;
 }
 
 .homepage-button--dark {
-  color: #fff;
+  $text-color: #fff;
+
+  color: $text-color;
   background-color: #000;
+
+  &:hover {
+    color: $text-color;
+  }
 }
 </style>

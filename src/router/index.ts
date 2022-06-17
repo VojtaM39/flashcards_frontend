@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import HomeView from "@/views/HomeView.vue";
+import RegisterView from "@/views/RegisterView.vue";
+import LoginView from "@/views/LoginView.vue";
+import CollectionsView from "@/views/CollectionsView.vue";
+import authGuard from "@/router/guards/auth.guard";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,18 +14,18 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/login",
     name: "login",
-    component: HomeView,
+    component: LoginView,
   },
   {
     path: "/register",
     name: "register",
-    component: HomeView,
+    component: RegisterView,
   },
   {
-    path: "/about",
-    name: "about",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/collections",
+    name: "collections",
+    component: CollectionsView,
+    beforeEnter: authGuard,
   },
 ];
 
