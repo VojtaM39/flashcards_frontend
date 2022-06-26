@@ -1,5 +1,5 @@
 import ApiService from "@/services/api.service";
-import { LoginUserDto, RegisterUserDto } from "@/dto/user.dto";
+import { LoginUserDto, RegisterUserDto } from "@/dtos/user.dto";
 import { User } from "@/interfaces/user.interface";
 import { ApiResponse } from "@/interfaces/apiresponse.interface";
 
@@ -20,5 +20,9 @@ export default class AuthApiService extends ApiService {
 
   async login(user: LoginUserDto) {
     return await this.post<ApiResponse<User>, LoginUserDto>("login", user);
+  }
+
+  async logout() {
+    return await this.post<ApiResponse<User>>("logout");
   }
 }

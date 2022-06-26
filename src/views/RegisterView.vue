@@ -26,7 +26,7 @@ import AuthInput from "@/components/auth/AuthInput.vue";
 import AuthButton from "@/components/auth/AuthButton.vue";
 import InputType from "@/types/input.type";
 import { namespace } from "vuex-class";
-import { RegisterUserDto } from "@/dto/user.dto";
+import { RegisterUserDto } from "@/dtos/user.dto";
 import { ApiCallException } from "@/exceptions/apicall.exception";
 
 const auth = namespace("auth");

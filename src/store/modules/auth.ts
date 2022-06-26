@@ -1,12 +1,12 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import AuthApiService from "@/services/auth.api.service";
 import { User } from "@/interfaces/user.interface";
-import { LoginUserDto, RegisterUserDto } from "@/dto/user.dto";
+import { LoginUserDto, RegisterUserDto } from "@/dtos/user.dto";
 import { ApiCallException } from "@/exceptions/apicall.exception";
 import AuthStatus from "@/types/auth.type";
 
 @Module({ namespaced: true })
-class Posts extends VuexModule {
+class Auth extends VuexModule {
   public authApiService = new AuthApiService();
 
   public authenticatedUserState: User = {
@@ -32,6 +32,14 @@ class Posts extends VuexModule {
   @Mutation
   public saveAuthenticationStatus(status: AuthStatus): void {
     this.status = status;
+  }
+
+  @Mutation
+  public clearAuthenticatedUser(): void {
+    this.authenticatedUserState = {
+      _id: "",
+      email: "",
+    };
   }
 
   @Action
@@ -90,5 +98,24 @@ class Posts extends VuexModule {
         });
     });
   }
+
+  @Action
+  public async logout(): Promise<User> {
+    return new Promise((resolve, reject) => {
+      this.authApiService
+        .logout()
+        .then((response) => {
+          this.context.commit("clearAuthenticatedUser");
+          this.context.commit(
+            "saveAuthenticationStatus",
+            AuthStatus.Unauthenticated
+          );
+          resolve(response.data);
+        })
+        .catch((error: ApiCallException) => {
+          reject(error);
+        });
+    });
+  }
 }
-export default Posts;
+export default Auth;

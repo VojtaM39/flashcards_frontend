@@ -3,7 +3,7 @@ import { ApiCallException } from "@/exceptions/apicall.exception";
 import { ApiResponse } from "@/interfaces/apiresponse.interface";
 
 export default class ApiService {
-  readonly BASE_URL = "http://localhost:3000/api";
+  readonly BASE_URL = "http://127.0.0.1:3000/api";
 
   protected axiosInstance: AxiosInstance;
 
@@ -52,12 +52,14 @@ export default class ApiService {
     return this.request<T>(config);
   }
 
-  protected post<T, D>(resource = "", data: D) {
+  protected post<T, D = unknown>(resource = "", data: D | null = null) {
     const config: AxiosRequestConfig<D> = {
       url: resource,
-      data: data,
       method: "post",
     };
+
+    if (data !== null) config.data = data;
+
     return this.request<T, D>(config);
   }
 

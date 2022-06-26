@@ -20,7 +20,7 @@ import AuthLayout from "@/layouts/AuthLayout.vue";
 import AuthInput from "@/components/auth/AuthInput.vue";
 import AuthButton from "@/components/auth/AuthButton.vue";
 import InputType from "@/types/input.type";
-import { LoginUserDto, RegisterUserDto } from "@/dto/user.dto";
+import { LoginUserDto, RegisterUserDto } from "@/dtos/user.dto";
 import { namespace } from "vuex-class";
 import { ApiCallException } from "@/exceptions/apicall.exception";
 
@@ -49,7 +49,7 @@ export default class LoginView extends Vue {
 
     try {
       await this.login(loginData);
-      await this.$router.push("/collections");
+      await this.$router.push("/dashboard/collections");
     } catch (error) {
       if (error instanceof ApiCallException) {
         console.log(error.message);
