@@ -7,6 +7,7 @@ import { CreateCollectionDto } from "@/dtos/collection.dto";
 import { Flashcard } from "@/interfaces/flashcard.interface";
 import {
   CreateFlashcardDto,
+  EditFlashcardDto,
   FetchCollectionFlashcardsDto,
 } from "@/dtos/flashcard.dto";
 import { Paginated } from "@/interfaces/paginated.interface";
@@ -125,6 +126,36 @@ class Flashcards extends VuexModule {
     return new Promise((resolve, reject) => {
       this.flashcardsApiService
         .createFlashcard(createFlashcardData)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error: ApiCallException) => {
+          reject(error);
+        });
+    });
+  }
+
+  @Action
+  public async editFlashcard(
+    editFlashcardData: EditFlashcardDto
+  ): Promise<Flashcard> {
+    return new Promise((resolve, reject) => {
+      this.flashcardsApiService
+        .editFlashcard(editFlashcardData)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error: ApiCallException) => {
+          reject(error);
+        });
+    });
+  }
+
+  @Action
+  public async deleteFlashcard(flashcardId: string): Promise<Flashcard> {
+    return new Promise((resolve, reject) => {
+      this.flashcardsApiService
+        .deleteFlashcard(flashcardId)
         .then((response) => {
           resolve(response.data);
         })

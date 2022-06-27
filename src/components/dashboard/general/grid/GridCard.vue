@@ -14,5 +14,9 @@ export default class GridCard extends Vue {}
 .grid-card {
   background-color: #fff;
   padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
 }
 </style>

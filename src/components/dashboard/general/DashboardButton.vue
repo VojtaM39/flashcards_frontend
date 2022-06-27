@@ -25,8 +25,14 @@ export default class DashboardButton extends Vue {
   @Prop({ required: false, default: false })
   loading!: boolean;
   getTypeClass(): string {
-    if (this.type === ButtonType.LIGHT) return "dashboard-button--light";
-    else return "dashboard-button--dark";
+    switch (this.type) {
+      case ButtonType.LIGHT:
+        return "dashboard-button--light";
+      case ButtonType.RED:
+        return "dashboard-button--red";
+      default:
+        return "dashboard-button--dark";
+    }
   }
 
   getUppercaseClass(): string {
@@ -39,6 +45,7 @@ export default class DashboardButton extends Vue {
 <style scoped lang="scss">
 $dark-color: #000;
 $light-color: #fff;
+$red-color: #ce0000;
 
 .dashboard-button {
   outline: none;
@@ -62,6 +69,12 @@ $light-color: #fff;
   background-color: $light-color;
   color: $dark-color;
   border-color: $dark-color;
+}
+
+.dashboard-button--red {
+  background-color: $red-color;
+  color: $light-color;
+  border-color: $red-color;
 }
 
 .dashboard-button--uppercase {

@@ -1,6 +1,10 @@
 import ApiService from "@/services/api.service";
 import { ApiResponse } from "@/interfaces/apiresponse.interface";
-import { CreateFlashcardDto } from "@/dtos/flashcard.dto";
+import {
+  CreateFlashcardDto,
+  EditFlashcardBodyDto,
+  EditFlashcardDto,
+} from "@/dtos/flashcard.dto";
 import { Flashcard } from "@/interfaces/flashcard.interface";
 import { Paginated } from "@/interfaces/paginated.interface";
 
@@ -16,6 +20,17 @@ export default class FlashcardsApiService extends ApiService {
       "",
       createFlashcardsData
     );
+  }
+
+  async editFlashcard(editFlashcardsData: EditFlashcardDto) {
+    return await this.put<ApiResponse<Flashcard>, EditFlashcardBodyDto>(
+      editFlashcardsData._id,
+      editFlashcardsData.body
+    );
+  }
+
+  async deleteFlashcard(flashcardId: string) {
+    return await this.delete<ApiResponse<Flashcard>>(flashcardId);
   }
 
   async getFlashcardsByCollection(

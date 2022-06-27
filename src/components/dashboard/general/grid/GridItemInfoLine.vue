@@ -1,7 +1,11 @@
 <template>
-  <div class="info-line">
-    <div class="info-line--text info-line--text__name">{{ name }}</div>
-    <div class="info-line--text info-line--text__value">{{ value }}</div>
+  <div class="info-line" :class="{ 'info-line--align-left': alignLeft }">
+    <div class="info-line--text info-line__text--name">
+      {{ name }}
+    </div>
+    <div class="info-line--text info-line__text--value">
+      {{ value }}
+    </div>
   </div>
 </template>
 
@@ -15,6 +19,9 @@ export default class GridItemInfoLine extends Vue {
 
   @Prop({ required: true })
   value!: string;
+
+  @Prop({ required: false, default: false })
+  alignLeft!: boolean;
 }
 </script>
 
@@ -28,13 +35,21 @@ export default class GridItemInfoLine extends Vue {
   font-size: 0.9rem;
 }
 
-.info-line--text__name {
+.info-line--align-left {
+  justify-content: flex-start;
+}
+
+.info-line__text--name {
   font-weight: 400;
   margin-right: 1rem;
 }
 
-.info-line--text__value {
+.info-line__text--value {
   font-weight: 300;
-  -webkit-line-clamp: 4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  overflow: hidden;
 }
 </style>
