@@ -14,7 +14,7 @@
       <DashboardButton
         :type="ButtonType.DARK"
         text="Learn"
-        @click="handleTrainClick"
+        @click="handleLearnClick"
         class="collections-button"
       />
     </div>
@@ -47,8 +47,8 @@ export default class CollectionsGridCard extends Vue {
     });
   }
 
-  handleTrainClick() {
-    console.log("train");
+  handleLearnClick() {
+    this.$emit("learn");
   }
 }
 </script>

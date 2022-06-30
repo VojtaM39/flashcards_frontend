@@ -5,6 +5,7 @@ import LoginView from "@/views/LoginView.vue";
 import DashboardView from "@/views/DashboardView.vue";
 import CollectionsView from "@/views/dashboard/CollectionsView.vue";
 import CollectionDetailView from "@/views/dashboard/CollectionDetailView.vue";
+import SessionView from "@/views/dashboard/SessionView.vue";
 import authGuard from "@/router/guards/auth.guard";
 
 const routes: Array<RouteRecordRaw> = [
@@ -38,6 +39,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "collection-detail/:id",
         name: "collectionDetail",
         component: CollectionDetailView,
+      },
+      {
+        path: "session/:id",
+        name: "session",
+        component: SessionView,
       },
     ],
   },

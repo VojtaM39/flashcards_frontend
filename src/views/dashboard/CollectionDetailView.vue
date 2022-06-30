@@ -81,6 +81,7 @@ export default class CollectionDetailView extends Vue {
 
   @flashcards.Action
   public fetchCollection!: (collectionId: string) => Promise<Collection>;
+
   @flashcards.Action
   public fetchCollectionFlashcards!: (
     fetchCollectionFlashcardsData: FetchCollectionFlashcardsDto
@@ -202,6 +203,8 @@ export default class CollectionDetailView extends Vue {
   }
 
   async handleDeleteFlashcard(flashcardId: string) {
+    if (!confirm("Do you really want to delete this flashcard?")) return;
+
     try {
       await this.deleteFlashcard(flashcardId);
       this.closeFlashcardModal();

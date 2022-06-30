@@ -1,5 +1,10 @@
 <template>
-  <div class="dashboard-modal-wrapper" :class="{ open: open }">
+  <div
+    class="dashboard-modal-wrapper"
+    :class="{ open: open }"
+    @click="handleOutsideClick"
+    data-outside-modal-wrapper="1"
+  >
     <div class="dashboard-modal">
       <div class="dashboard-modal__header">
         <div class="dashboard-modal__title">
@@ -55,6 +60,15 @@ export default class DashboardModal extends Vue {
 
   handleActionButtonClick() {
     this.$emit("action");
+  }
+
+  handleOutsideClick(event: MouseEvent) {
+    if (event.target instanceof Element) {
+      if (event.target.getAttribute("data-outside-modal-wrapper") != null) {
+        this.$emit("close");
+      }
+    }
+    return false;
   }
 }
 </script>
