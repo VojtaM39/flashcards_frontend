@@ -9,6 +9,7 @@ import {
 } from "@/dtos/sessions.dto";
 import { Flashcard } from "@/interfaces/flashcard.interface";
 import { FlashcardSessionStat } from "@/interfaces/flashcard_session_stat.interface";
+import { SessionReview } from "@/interfaces/session_review.interface";
 
 @Module({ namespaced: true })
 class Sessions extends VuexModule {
@@ -17,12 +18,18 @@ class Sessions extends VuexModule {
   public session: Session | null = null;
   public flashcard: Flashcard | null = null;
 
+  public sessionReview: SessionReview | null = null;
+
   get activeSession(): Session | null {
     return this.session;
   }
 
   get currentFlashcard(): Flashcard | null {
     return this.flashcard;
+  }
+
+  get activeSessionReview(): SessionReview | null {
+    return this.sessionReview;
   }
 
   @Mutation
@@ -33,6 +40,11 @@ class Sessions extends VuexModule {
   @Mutation
   public saveCurrentFlashcard(flashcard: Flashcard): void {
     this.flashcard = flashcard;
+  }
+
+  @Mutation
+  public saveActiveSessionReview(sessionReview: SessionReview): void {
+    this.sessionReview = sessionReview;
   }
 
   @Action
@@ -93,6 +105,23 @@ class Sessions extends VuexModule {
         .getNextFlashcard(sessionId)
         .then((response) => {
           this.context.commit("saveCurrentFlashcard", response.data);
+          resolve(response.data);
+        })
+        .catch((error: ApiCallException) => {
+          reject(error);
+        });
+    });
+  }
+
+  @Action
+  public async getSessionReview(
+    sessionId: string
+  ): Promise<SessionReview | null> {
+    return new Promise((resolve, reject) => {
+      this.sessionsApiService
+        .getSessionReview(sessionId)
+        .then((response) => {
+          this.context.commit("saveActiveSessionReview", response.data);
           resolve(response.data);
         })
         .catch((error: ApiCallException) => {

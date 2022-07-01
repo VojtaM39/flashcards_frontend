@@ -9,6 +9,7 @@ import {
 import { Session } from "@/interfaces/session.interface";
 import { FlashcardSessionStat } from "@/interfaces/flashcard_session_stat.interface";
 import { Flashcard } from "@/interfaces/flashcard.interface";
+import { SessionReview } from "@/interfaces/session_review.interface";
 
 export default class SessionsApiService extends ApiService {
   static readonly BASE_ENDPOINT_RESOURCE = "sessions";
@@ -43,5 +44,9 @@ export default class SessionsApiService extends ApiService {
 
   async getNextFlashcard(sessionId: string) {
     return await this.get<ApiResponse<Flashcard>>(`flashcard/${sessionId}`);
+  }
+
+  async getSessionReview(sessionId: string) {
+    return await this.get<ApiResponse<SessionReview>>(`review/${sessionId}`);
   }
 }

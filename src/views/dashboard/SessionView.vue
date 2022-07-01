@@ -160,10 +160,11 @@ export default class SessionView extends Vue {
     };
 
     try {
-      const session = await this.updateSession(updateSessionData);
-      // TODO redirect to session review
-      console.log(`ending session: ${session._id}`);
-      await this.$router.push({ name: "collections" });
+      await this.updateSession(updateSessionData);
+      await this.$router.push({
+        name: "sessionReview",
+        params: { id: this.activeSession._id },
+      });
     } catch (err) {
       if (err instanceof ApiCallException) {
         console.log(err.message);
