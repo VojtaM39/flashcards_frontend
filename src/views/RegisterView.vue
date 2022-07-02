@@ -59,12 +59,12 @@ export default class RegisterView extends Vue {
 
     try {
       await this.signup(registrationData);
+      this.$toast.success("Successfully signed up");
+
       await this.$router.push("login");
-    } catch (error) {
-      if (error instanceof ApiCallException) {
-        console.log(error.message);
-      } else {
-        console.log(error);
+    } catch (err) {
+      if (err instanceof ApiCallException) {
+        this.$toast.error(err.message);
       }
     }
   }

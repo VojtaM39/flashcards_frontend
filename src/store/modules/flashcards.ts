@@ -73,7 +73,7 @@ class Flashcards extends VuexModule {
       paginatedFlashcards.page >= paginatedFlashcards.total_pages;
   }
 
-  @Action
+  @Action({ rawError: true })
   public async fetchAuthenticatedUserCollections(): Promise<Collection[]> {
     return new Promise((resolve, reject) => {
       this.collectionsApiService
@@ -88,7 +88,7 @@ class Flashcards extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async createCollection(
     createCollectionData: CreateCollectionDto
   ): Promise<Collection> {
@@ -104,7 +104,7 @@ class Flashcards extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async fetchCollection(collectionId: string): Promise<Collection> {
     return new Promise((resolve, reject) => {
       this.collectionsApiService
@@ -119,7 +119,7 @@ class Flashcards extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async createFlashcard(
     createFlashcardData: CreateFlashcardDto
   ): Promise<Flashcard> {
@@ -135,7 +135,7 @@ class Flashcards extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async editFlashcard(
     editFlashcardData: EditFlashcardDto
   ): Promise<Flashcard> {
@@ -151,7 +151,7 @@ class Flashcards extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async deleteFlashcard(flashcardId: string): Promise<Flashcard> {
     return new Promise((resolve, reject) => {
       this.flashcardsApiService
@@ -165,7 +165,7 @@ class Flashcards extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async fetchCollectionFlashcards(
     fetchCollectionFlashcardsData: FetchCollectionFlashcardsDto
   ): Promise<Paginated<Flashcard>> {

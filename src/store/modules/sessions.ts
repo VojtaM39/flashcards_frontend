@@ -47,7 +47,7 @@ class Sessions extends VuexModule {
     this.sessionReview = sessionReview;
   }
 
-  @Action
+  @Action({ rawError: true })
   public async createSession(
     createSessionData: CreateSessionDto
   ): Promise<Session> {
@@ -64,7 +64,7 @@ class Sessions extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async updateSession(
     updateSessionData: UpdateSessionDto
   ): Promise<Session> {
@@ -81,7 +81,7 @@ class Sessions extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async updateFlashcardStat(
     updateFlashcardStatData: UpdateFlashcardStatDto
   ): Promise<FlashcardSessionStat> {
@@ -98,7 +98,7 @@ class Sessions extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async getNextFlashcard(sessionId: string): Promise<Flashcard | null> {
     return new Promise((resolve, reject) => {
       this.sessionsApiService
@@ -113,7 +113,7 @@ class Sessions extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async getSessionReview(
     sessionId: string
   ): Promise<SessionReview | null> {

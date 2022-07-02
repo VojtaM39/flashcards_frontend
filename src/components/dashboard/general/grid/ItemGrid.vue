@@ -1,10 +1,10 @@
 <template>
-  <div class="item-grid">
+  <div class="item-grid" v-cloak>
     <div class="item-grid__content">
       <slot />
     </div>
 
-    <div class="item-grid__load-more" v-if="loadMore === true">
+    <div class="item-grid__load-more" v-show="loadMore">
       <DashboardButton
         :type="ButtonType.DARK"
         :loading="loadMoreLoading"
@@ -41,6 +41,10 @@ export default class ItemGrid extends Vue {
 </script>
 
 <style scoped lang="scss">
+[v-cloak] {
+  display: none !important;
+}
+
 .item-grid__content {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

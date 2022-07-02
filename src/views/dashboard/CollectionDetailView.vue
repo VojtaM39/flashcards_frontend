@@ -161,6 +161,8 @@ export default class CollectionDetailView extends Vue {
 
     try {
       await this.createFlashcard(createFlashcardData);
+      this.$toast.success("Successfully created new flashcard");
+
       this.closeFlashcardModal();
       await this.fetchCollectionFlashcards({
         collectionId: this.getCollectionId(),
@@ -168,7 +170,7 @@ export default class CollectionDetailView extends Vue {
       });
     } catch (err) {
       if (err instanceof ApiCallException) {
-        console.log(err.message);
+        this.$toast.error(err.message);
       }
     }
   }
@@ -191,6 +193,8 @@ export default class CollectionDetailView extends Vue {
 
     try {
       await this.editFlashcard(editFlashcardData);
+      this.$toast.success("Successfully edited flashcard");
+
       this.closeFlashcardModal();
       await this.fetchCollectionFlashcards({
         collectionId: this.getCollectionId(),
@@ -198,7 +202,7 @@ export default class CollectionDetailView extends Vue {
       });
     } catch (err) {
       if (err instanceof ApiCallException) {
-        console.log(err.message);
+        this.$toast.error(err.message);
       }
     }
   }
@@ -208,6 +212,8 @@ export default class CollectionDetailView extends Vue {
 
     try {
       await this.deleteFlashcard(flashcardId);
+      this.$toast.success("Successfully deleted flashcard");
+
       this.closeFlashcardModal();
       await this.fetchCollectionFlashcards({
         collectionId: this.getCollectionId(),
@@ -215,7 +221,7 @@ export default class CollectionDetailView extends Vue {
       });
     } catch (err) {
       if (err instanceof ApiCallException) {
-        console.log(err.message);
+        this.$toast.error(err.message);
       }
     }
   }

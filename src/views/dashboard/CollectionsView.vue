@@ -112,11 +112,13 @@ export default class CollectionsView extends Vue {
 
     try {
       await this.createCollection(createCollectionData);
+      this.$toast.success("Successfully created new collection");
+
       this.closeNewCollectionModal();
       await this.fetchAuthenticatedUserCollections();
     } catch (err) {
       if (err instanceof ApiCallException) {
-        console.log(err.message);
+        this.$toast.error(err.message);
       }
     }
   }
@@ -137,6 +139,7 @@ export default class CollectionsView extends Vue {
 
     try {
       const session = await this.createSession(createSessionData);
+
       await this.$router.push({ name: "session", params: { id: session._id } });
     } catch (err) {
       if (err instanceof ApiCallException) console.log(err.message);

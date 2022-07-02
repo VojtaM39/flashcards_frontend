@@ -1,7 +1,14 @@
 <template>
   <button
     class="dashboard-button"
-    :class="[getTypeClass(), getUppercaseClass(), { loading: loading }]"
+    :class="[
+      getTypeClass(),
+      {
+        'dashboard-button--uppercase': uppercase,
+        'dashboard-button--disabled': disabled,
+        'dashboard-button--loading': loading,
+      },
+    ]"
   >
     {{ text }}
   </button>
@@ -21,6 +28,9 @@ export default class DashboardButton extends Vue {
 
   @Prop({ required: false, default: true })
   uppercase!: boolean;
+
+  @Prop({ required: false, default: false })
+  disabled!: boolean;
 
   @Prop({ required: false, default: false })
   loading!: boolean;
@@ -62,12 +72,12 @@ $red-color: #ce0000;
     font-size: 0.85rem;
     padding: 0.5rem 0.7rem;
   }
+}
 
-  &.loading {
-    pointer-events: none;
-    cursor: default;
-    opacity: 0.5;
-  }
+.dashboard-button--loading {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
 }
 
 .dashboard-button--light {
@@ -86,7 +96,9 @@ $red-color: #ce0000;
   text-transform: uppercase;
 }
 
-.dashboard-button--nonuppercase {
-  text-transform: none;
+.dashboard-button--disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
 }
 </style>

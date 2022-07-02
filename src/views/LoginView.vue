@@ -49,12 +49,12 @@ export default class LoginView extends Vue {
 
     try {
       await this.login(loginData);
+      this.$toast.success("Successfully logged in");
+
       await this.$router.push("/dashboard/collections");
-    } catch (error) {
-      if (error instanceof ApiCallException) {
-        console.log(error.message);
-      } else {
-        console.log(error);
+    } catch (err) {
+      if (err instanceof ApiCallException) {
+        this.$toast.error(err.message);
       }
     }
   }

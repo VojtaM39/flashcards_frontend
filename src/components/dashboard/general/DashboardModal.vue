@@ -82,6 +82,7 @@ export default class DashboardModal extends Vue {
   left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: 999;
 
   &.open {
     display: flex;

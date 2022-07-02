@@ -16,6 +16,7 @@
         text="Learn"
         @click="handleLearnClick"
         class="collections-button"
+        :disabled="collection.count === 0"
       />
     </div>
   </GridCard>

@@ -4,5 +4,13 @@ import router from "./router";
 import store from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-default.css";
 
-createApp(App).use(store).use(router).mount("#app");
+const app = createApp(App);
+app.use(store);
+app.use(router);
+app.use(VueToast, {
+  position: "top-right",
+});
+app.mount("#app");

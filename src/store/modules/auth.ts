@@ -42,7 +42,7 @@ class Auth extends VuexModule {
     };
   }
 
-  @Action
+  @Action({ rawError: true })
   public async fetchAuthenticatedUser(): Promise<User> {
     return new Promise((resolve, reject) => {
       this.authApiService
@@ -61,7 +61,7 @@ class Auth extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async signup(registerUserDto: RegisterUserDto): Promise<User> {
     return new Promise((resolve, reject) => {
       this.authApiService
@@ -80,7 +80,7 @@ class Auth extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async login(loginUserDto: LoginUserDto): Promise<User> {
     return new Promise((resolve, reject) => {
       this.authApiService
@@ -99,7 +99,7 @@ class Auth extends VuexModule {
     });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async logout(): Promise<User> {
     return new Promise((resolve, reject) => {
       this.authApiService
