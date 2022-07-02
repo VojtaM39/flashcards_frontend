@@ -58,6 +58,11 @@ $red-color: #ce0000;
   width: 100%;
   font-weight: 500;
 
+  @include media-breakpoint-down(md) {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.7rem;
+  }
+
   &.loading {
     pointer-events: none;
     cursor: default;

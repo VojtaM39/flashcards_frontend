@@ -220,9 +220,14 @@ export default class SessionView extends Vue {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
 }
 
 .flashcard-detail__section {
+  $border-separator: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -233,7 +238,12 @@ export default class SessionView extends Vue {
   position: relative;
 
   &:nth-child(1) {
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: $border-separator;
+
+    @include media-breakpoint-down(md) {
+      border-right: 0;
+      border-bottom: $border-separator;
+    }
   }
 }
 

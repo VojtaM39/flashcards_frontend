@@ -102,6 +102,10 @@ export default class SessionReviewView extends Vue {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+
+  @include media-breakpoint-down(md) {
+    font-size: 0.95rem;
+  }
 }
 
 .session-review__stat-name {

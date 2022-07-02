@@ -1,14 +1,11 @@
 <template>
   <div id="collections-view">
-    <DashboardModal
-      header="Create collection"
-      :open="isCreateNewCollectionModalOpen"
-      actionButtonText="Create collection"
+    <NewCollectionModal
+      v-model="newCollectionModalData"
+      :open="isNewCollectionModalOpen"
       @action="handleCreateNewCollection"
       @close="closeNewCollectionModal"
-    >
-      <TextInput placeholder="Collection name" v-model="newCollectionName" />
-    </DashboardModal>
+    />
 
     <StartSessionModal
       v-model="startSessionModalData"
@@ -45,12 +42,14 @@ import DashboardButton from "@/components/dashboard/general/DashboardButton.vue"
 import DashboardModal from "@/components/dashboard/general/DashboardModal.vue";
 import TextInput from "@/components/dashboard/general/TextInput.vue";
 import StartSessionModal from "@/components/dashboard/collections/StartSessionModal.vue";
+import NewCollectionModal from "@/components/dashboard/collections/NewCollectionModal.vue";
 import { namespace } from "vuex-class";
 import { Collection } from "@/interfaces/collection.interface";
 import ButtonType from "@/types/button.type";
 import { CreateCollectionDto } from "@/dtos/collection.dto";
 import { ApiCallException } from "@/exceptions/apicall.exception";
 import SessionModalData from "@/interfaces/session.modal.interface";
+import NewCollectionModalData from "@/interfaces/new_collection.modal.interface";
 import { Session } from "@/interfaces/session.interface";
 import { CreateSessionDto } from "@/dtos/sessions.dto";
 
@@ -66,14 +65,16 @@ const sessions = namespace("sessions");
     DashboardModal,
     TextInput,
     StartSessionModal,
+    NewCollectionModal,
   },
 })
 export default class CollectionsView extends Vue {
   ButtonType = ButtonType;
-  isCreateNewCollectionModalOpen = false;
-  newCollectionName = "";
   isStartSessionModalOpen = false;
+  isNewCollectionModalOpen = false;
   startSessionModalData: SessionModalData = this.getDefaultSessionModalData();
+  newCollectionModalData: NewCollectionModalData =
+    this.getDefaultNewCollectionModalData();
 
   @flashcards.Action
   public fetchAuthenticatedUserCollections!: () => Promise<Collection[]>;
@@ -96,24 +97,22 @@ export default class CollectionsView extends Vue {
   }
 
   openNewCollectionModal() {
-    this.isCreateNewCollectionModalOpen = true;
+    this.isNewCollectionModalOpen = true;
   }
 
   closeNewCollectionModal() {
-    this.newCollectionName = "";
-    this.isCreateNewCollectionModalOpen = false;
+    this.isNewCollectionModalOpen = false;
+    this.newCollectionModalData = this.getDefaultNewCollectionModalData();
   }
 
   async handleCreateNewCollection() {
     const createCollectionData: CreateCollectionDto = {
-      name: this.newCollectionName,
+      name: this.newCollectionModalData.name,
     };
 
     try {
       await this.createCollection(createCollectionData);
-
       this.closeNewCollectionModal();
-
       await this.fetchAuthenticatedUserCollections();
     } catch (err) {
       if (err instanceof ApiCallException) {
@@ -138,7 +137,7 @@ export default class CollectionsView extends Vue {
 
     try {
       const session = await this.createSession(createSessionData);
-      this.$router.push({ name: "session", params: { id: session._id } });
+      await this.$router.push({ name: "session", params: { id: session._id } });
     } catch (err) {
       if (err instanceof ApiCallException) console.log(err.message);
     }
@@ -154,6 +153,12 @@ export default class CollectionsView extends Vue {
       collection: null,
       random: false,
       infinite: false,
+    };
+  }
+
+  getDefaultNewCollectionModalData(): NewCollectionModalData {
+    return {
+      name: "",
     };
   }
 }

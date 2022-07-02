@@ -94,6 +94,10 @@ export default class DashboardModal extends Vue {
   padding: 4rem 3rem;
   width: 500px;
   background-color: #fff;
+
+  @include media-breakpoint-down(md) {
+    width: 90%;
+  }
 }
 
 .dashboard-modal__header {
@@ -108,6 +112,10 @@ export default class DashboardModal extends Vue {
   font-weight: 700;
   text-transform: uppercase;
   font-size: 1.7rem;
+
+  @include media-breakpoint-down(md) {
+    font-size: 1.2rem;
+  }
 }
 
 .dashboard-modal__close {

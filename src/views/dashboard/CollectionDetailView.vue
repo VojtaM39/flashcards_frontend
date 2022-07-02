@@ -11,6 +11,7 @@
     <MainHeader
       v-if="collectionDetail !== null"
       :header="collectionDetail.name"
+      :back-button="true"
     >
       <DashboardButton
         :type="ButtonType.DARK"
