@@ -22,7 +22,6 @@
     <div class="content">
       <ItemGrid
         :load-more="!collectionFlashcardsIsLastPage"
-        :load-more-loading="false"
         @more="fetchMoreFlashcards"
       >
         <FlashcardGridCard

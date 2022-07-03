@@ -20,6 +20,10 @@ class Flashcards extends VuexModule {
   public collections: Collection[] = [];
   public collection: Collection | null = null;
   public flashcards: Flashcard[] = [];
+
+  public collectionsPage = 0;
+  public collectionsIsLastPage = false;
+
   public flashcardsPage = 0;
   public flashcardsIsLastPage = false;
 
@@ -35,6 +39,14 @@ class Flashcards extends VuexModule {
     return this.flashcards;
   }
 
+  get authCollectionsPage(): number {
+    return this.collectionsPage;
+  }
+
+  get authCollectionsIsLastPage(): boolean {
+    return this.collectionsIsLastPage;
+  }
+
   get collectionFlashcardsPage(): number {
     return this.flashcardsPage;
   }
@@ -44,8 +56,23 @@ class Flashcards extends VuexModule {
   }
 
   @Mutation
-  public saveAuthUserCollections(collections: Collection[]): void {
-    this.collections = collections;
+  public saveAuthUserCollections(
+    paginatedCollections: Paginated<Collection>
+  ): void {
+    this.collections = paginatedCollections.items;
+    this.collectionsPage = paginatedCollections.page;
+    this.collectionsIsLastPage =
+      paginatedCollections.page >= paginatedCollections.total_pages;
+  }
+
+  @Mutation
+  public appendAuthUserCollections(
+    paginatedCollections: Paginated<Collection>
+  ): void {
+    this.collections.push(...paginatedCollections.items);
+    this.collectionsPage = paginatedCollections.page;
+    this.collectionsIsLastPage =
+      paginatedCollections.page >= paginatedCollections.total_pages;
   }
 
   @Mutation
@@ -74,12 +101,16 @@ class Flashcards extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async fetchAuthenticatedUserCollections(): Promise<Collection[]> {
+  public async fetchAuthenticatedUserCollections(
+    page: number
+  ): Promise<Paginated<Collection>> {
     return new Promise((resolve, reject) => {
       this.collectionsApiService
-        .authUserCollections()
+        .authUserCollections(page)
         .then((response) => {
-          this.context.commit("saveAuthUserCollections", response.data);
+          if (page === 1)
+            this.context.commit("saveAuthUserCollections", response.data);
+          else this.context.commit("appendAuthUserCollections", response.data);
           resolve(response.data);
         })
         .catch((error: ApiCallException) => {

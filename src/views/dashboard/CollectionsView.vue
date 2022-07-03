@@ -13,6 +13,7 @@
       @action="startSession"
       @close="closeNewSessionModal"
     />
+
     <MainHeader header="My Collections">
       <DashboardButton
         :type="ButtonType.DARK"
@@ -21,7 +22,10 @@
       />
     </MainHeader>
     <div class="content">
-      <ItemGrid>
+      <ItemGrid
+        :load-more="!authCollectionsIsLastPage"
+        @more="fetchMoreCollections"
+      >
         <CollectionsGridCard
           v-for="collection in authUserCollections"
           :collection="collection"
@@ -52,6 +56,7 @@ import SessionModalData from "@/interfaces/session.modal.interface";
 import NewCollectionModalData from "@/interfaces/new_collection.modal.interface";
 import { Session } from "@/interfaces/session.interface";
 import { CreateSessionDto } from "@/dtos/sessions.dto";
+import { Paginated } from "@/interfaces/paginated.interface";
 
 const flashcards = namespace("flashcards");
 const sessions = namespace("sessions");
@@ -77,7 +82,9 @@ export default class CollectionsView extends Vue {
     this.getDefaultNewCollectionModalData();
 
   @flashcards.Action
-  public fetchAuthenticatedUserCollections!: () => Promise<Collection[]>;
+  public fetchAuthenticatedUserCollections!: (
+    page: number
+  ) => Promise<Paginated<Collection>>;
 
   @flashcards.Action
   public createCollection!: (
@@ -92,8 +99,14 @@ export default class CollectionsView extends Vue {
   @flashcards.Getter
   public authUserCollections!: Collection[];
 
+  @flashcards.Getter
+  public authCollectionsPage!: number;
+
+  @flashcards.Getter
+  public authCollectionsIsLastPage!: boolean;
+
   beforeMount() {
-    this.fetchAuthenticatedUserCollections();
+    this.fetchAuthenticatedUserCollections(1);
   }
 
   openNewCollectionModal() {
@@ -115,7 +128,7 @@ export default class CollectionsView extends Vue {
       this.$toast.success("Successfully created new collection");
 
       this.closeNewCollectionModal();
-      await this.fetchAuthenticatedUserCollections();
+      await this.fetchAuthenticatedUserCollections(1);
     } catch (err) {
       if (err instanceof ApiCallException) {
         this.$toast.error(err.message);
@@ -157,6 +170,10 @@ export default class CollectionsView extends Vue {
       random: false,
       infinite: false,
     };
+  }
+
+  fetchMoreCollections() {
+    this.fetchAuthenticatedUserCollections(this.authCollectionsPage + 1);
   }
 
   getDefaultNewCollectionModalData(): NewCollectionModalData {

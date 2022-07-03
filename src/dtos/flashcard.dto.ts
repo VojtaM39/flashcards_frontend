@@ -1,3 +1,8 @@
+export interface FetchCollectionsDto {
+  collectionId: string;
+  page: number;
+}
+
 export interface CreateFlashcardDto {
   question: string;
   answer: string;
