@@ -9,8 +9,8 @@
     />
 
     <MainHeader
-      v-if="collectionDetail !== null"
-      :header="collectionDetail.name"
+      v-if="collection !== null"
+      :header="collection.name"
       :back-button="true"
     >
       <DashboardButton
@@ -20,12 +20,9 @@
       />
     </MainHeader>
     <div class="content">
-      <ItemGrid
-        :load-more="!collectionFlashcardsIsLastPage"
-        @more="fetchMoreFlashcards"
-      >
+      <ItemGrid :load-more="!flashcardsIsLastPage" @more="fetchMoreFlashcards">
         <FlashcardGridCard
-          v-for="flashcard in collectionFlashcards"
+          v-for="flashcard in flashcards"
           :flashcard="flashcard"
           :key="flashcard._id"
           @delete="handleDeleteFlashcard(flashcard._id)"
@@ -101,17 +98,17 @@ export default class CollectionDetailView extends Vue {
   @flashcards.Action
   public deleteFlashcard!: (flashcardId: string) => Promise<Flashcard>;
 
-  @flashcards.Getter
-  public collectionDetail!: Collection;
+  @flashcards.State
+  public collection!: Collection;
 
-  @flashcards.Getter
-  public collectionFlashcards!: Flashcard[];
+  @flashcards.State
+  public flashcards!: Flashcard[];
 
-  @flashcards.Getter
-  public collectionFlashcardsIsLastPage!: boolean;
+  @flashcards.State
+  public flashcardsIsLastPage!: boolean;
 
-  @flashcards.Getter
-  public collectionFlashcardsPage!: number;
+  @flashcards.State
+  public flashcardsPage!: number;
 
   created() {
     Promise.all([
@@ -231,7 +228,7 @@ export default class CollectionDetailView extends Vue {
   fetchMoreFlashcards() {
     this.fetchCollectionFlashcards({
       collectionId: this.getCollectionId(),
-      page: this.collectionFlashcardsPage + 1,
+      page: this.flashcardsPage + 1,
     });
   }
 

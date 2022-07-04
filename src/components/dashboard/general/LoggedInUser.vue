@@ -22,7 +22,7 @@ const auth = namespace("auth");
   components: { LogoutSvg },
 })
 export default class LoggedInUser extends Vue {
-  @auth.Getter
+  @auth.State
   authenticatedUser!: User;
 
   @auth.Getter

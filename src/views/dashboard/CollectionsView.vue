@@ -23,11 +23,11 @@
     </MainHeader>
     <div class="content" v-show="!loading">
       <ItemGrid
-        :load-more="!authCollectionsIsLastPage"
+        :load-more="!collectionsIsLastPage"
         @more="fetchMoreCollections"
       >
         <CollectionsGridCard
-          v-for="collection in authUserCollections"
+          v-for="collection in collections"
           :collection="collection"
           :key="collection._id"
           @learn="this.openNewSessionModal(collection)"
@@ -97,14 +97,14 @@ export default class CollectionsView extends Vue {
     createSessionData: CreateSessionDto
   ) => Promise<Session>;
 
-  @flashcards.Getter
-  public authUserCollections!: Collection[];
+  @flashcards.State
+  public collections!: Collection[];
 
-  @flashcards.Getter
-  public authCollectionsPage!: number;
+  @flashcards.State
+  public collectionsPage!: number;
 
-  @flashcards.Getter
-  public authCollectionsIsLastPage!: boolean;
+  @flashcards.State
+  public collectionsIsLastPage!: boolean;
 
   created() {
     this.fetchAuthenticatedUserCollections(1).then(
@@ -176,7 +176,7 @@ export default class CollectionsView extends Vue {
   }
 
   fetchMoreCollections() {
-    this.fetchAuthenticatedUserCollections(this.authCollectionsPage + 1);
+    this.fetchAuthenticatedUserCollections(this.collectionsPage + 1);
   }
 
   getDefaultNewCollectionModalData(): NewCollectionModalData {

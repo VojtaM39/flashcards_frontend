@@ -26,34 +26,6 @@ class Flashcards extends VuexModule {
   public flashcardsPage = 0;
   public flashcardsIsLastPage = false;
 
-  get authUserCollections(): Collection[] {
-    return this.collections;
-  }
-
-  get collectionDetail(): Collection | null {
-    return this.collection;
-  }
-
-  get collectionFlashcards(): Flashcard[] {
-    return this.flashcards;
-  }
-
-  get authCollectionsPage(): number {
-    return this.collectionsPage;
-  }
-
-  get authCollectionsIsLastPage(): boolean {
-    return this.collectionsIsLastPage;
-  }
-
-  get collectionFlashcardsPage(): number {
-    return this.flashcardsPage;
-  }
-
-  get collectionFlashcardsIsLastPage(): boolean {
-    return this.flashcardsIsLastPage;
-  }
-
   @Mutation
   public saveAuthUserCollections(
     paginatedCollections: Paginated<Collection>

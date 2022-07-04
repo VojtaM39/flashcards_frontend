@@ -3,26 +3,23 @@
     <MainHeader header="Session review" />
 
     <div class="session-review" v-show="!loading">
-      <div
-        class="session-review__stats"
-        v-if="this.activeSessionReview !== null"
-      >
+      <div class="session-review__stats" v-if="this.sessionReview !== null">
         <div class="session-review__stat-line">
           <div class="session-review__stat-name">Total answered:</div>
           <div class="session-review__stat-value">
-            {{ activeSessionReview.session.total }}
+            {{ sessionReview.session.total }}
           </div>
         </div>
         <div class="session-review__stat-line">
           <div class="session-review__stat-name">Answered correctly:</div>
           <div class="session-review__stat-value">
-            {{ activeSessionReview.session.correct }}
+            {{ sessionReview.session.correct }}
           </div>
         </div>
         <div class="session-review__stat-line">
           <div class="session-review__stat-name">Flashcards learned:</div>
           <div class="session-review__stat-value">
-            {{ activeSessionReview.learned_percentage }}%
+            {{ sessionReview.learned_percentage }}%
           </div>
         </div>
       </div>
@@ -61,8 +58,8 @@ export default class SessionReviewView extends Vue {
     sessionId: string
   ) => Promise<SessionReview | null>;
 
-  @sessions.Getter
-  public activeSessionReview!: SessionReview | null;
+  @sessions.State
+  public sessionReview!: SessionReview | null;
 
   created() {
     this.getSessionReview(this.sessionId).then(() => (this.loading = false));

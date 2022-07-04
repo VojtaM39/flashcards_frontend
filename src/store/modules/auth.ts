@@ -8,34 +8,26 @@ import AuthStatus from "@/types/auth.type";
 class Auth extends VuexModule {
   public authApiService = new AuthApiService();
 
-  public authenticatedUserState: User = {
+  public authenticatedUser: User = {
     _id: "",
     email: "",
   };
 
-  public status: AuthStatus = AuthStatus.Unknown;
-
-  get authenticatedUser(): User {
-    return this.authenticatedUserState;
-  }
-
-  get authenticationStatus(): AuthStatus {
-    return this.status;
-  }
+  public authenticationStatus: AuthStatus = AuthStatus.Unknown;
 
   @Mutation
   public saveAuthenticatedUser(user: User): void {
-    this.authenticatedUserState = user;
+    this.authenticatedUser = user;
   }
 
   @Mutation
   public saveAuthenticationStatus(status: AuthStatus): void {
-    this.status = status;
+    this.authenticationStatus = status;
   }
 
   @Mutation
   public clearAuthenticatedUser(): void {
-    this.authenticatedUserState = {
+    this.authenticatedUser = {
       _id: "",
       email: "",
     };

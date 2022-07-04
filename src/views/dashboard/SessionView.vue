@@ -1,6 +1,6 @@
 <template>
   <div id="session-view">
-    <div class="flashcard" v-show="!loading">
+    <div class="flashcard" v-if="!loading">
       <MainHeader header="Learning session">
         <DashboardButton
           :type="ButtonType.DARK"
@@ -12,7 +12,7 @@
       <div class="session-stats">
         <div class="session-stats__section">
           <SessionCheck class="sessions-stats__icon" />
-          <div class="session-stats__value">{{ activeSession.correct }}</div>
+          <div class="session-stats__value">{{ session.correct }}</div>
         </div>
 
         <div class="session-stats__section">
@@ -26,7 +26,7 @@
           class="flashcard-detail__section flashcard-detail__section--question"
         >
           <div class="flashcard-detail__text">
-            {{ currentFlashcard.question }}
+            {{ flashcard.question }}
           </div>
         </div>
         <div
@@ -41,7 +41,7 @@
           />
 
           <div class="flashcard-detail__text" v-if="revealed">
-            {{ currentFlashcard.answer }}
+            {{ flashcard.answer }}
           </div>
 
           <div class="flashcard-detail__answer-buttons" v-if="revealed">
@@ -105,11 +105,11 @@ export default class SessionView extends Vue {
     updateFlashcardStatData: UpdateFlashcardStatDto
   ) => Promise<FlashcardSessionStat>;
 
-  @sessions.Getter
-  public activeSession!: Session | null;
+  @sessions.State
+  public session!: Session | null;
 
-  @sessions.Getter
-  public currentFlashcard!: Flashcard | null;
+  @sessions.State
+  public flashcard!: Flashcard | null;
 
   created() {
     this.getNextFlashcard(this.sessionId).then(() => (this.loading = false));
@@ -120,21 +120,21 @@ export default class SessionView extends Vue {
   }
 
   async handleAnswerButtonClick(correct: boolean) {
-    if (this.activeSession == null || this.currentFlashcard == null) {
+    if (this.session == null || this.flashcard == null) {
       console.log("Data not loaded");
       return;
     }
 
     const updateFlashcardStatData: UpdateFlashcardStatDto = {
-      session: this.activeSession._id,
-      flashcard: this.currentFlashcard._id,
+      session: this.session._id,
+      flashcard: this.flashcard._id,
       correct: correct,
     };
     try {
       await this.updateFlashcardStat(updateFlashcardStatData);
 
       this.revealed = false;
-      const flashcard = await this.getNextFlashcard(this.activeSession._id);
+      const flashcard = await this.getNextFlashcard(this.session._id);
       if (flashcard == null) {
         await this.endSession();
       }
@@ -146,7 +146,7 @@ export default class SessionView extends Vue {
   }
 
   async endSession() {
-    if (this.activeSession == null) {
+    if (this.session == null) {
       console.log("Data not loaded");
       return null;
     }
@@ -156,7 +156,7 @@ export default class SessionView extends Vue {
     };
 
     const updateSessionData: UpdateSessionDto = {
-      id: this.activeSession._id,
+      id: this.session._id,
       body: updateSessionBodyData,
     };
 
@@ -164,7 +164,7 @@ export default class SessionView extends Vue {
       await this.updateSession(updateSessionData);
       await this.$router.push({
         name: "sessionReview",
-        params: { id: this.activeSession._id },
+        params: { id: this.session._id },
       });
     } catch (err) {
       if (err instanceof ApiCallException) {
@@ -178,8 +178,8 @@ export default class SessionView extends Vue {
   }
 
   get sessionIncorrect() {
-    if (this.activeSession === null) return 0;
-    return this.activeSession.total - this.activeSession.correct;
+    if (this.session === null) return 0;
+    return this.session.total - this.session.correct;
   }
 }
 </script>

@@ -8,11 +8,11 @@ export default async function authGuard(
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) {
-  let authStatus: AuthStatus = store.getters["auth/authenticationStatus"];
+  let authStatus: AuthStatus = store.state.auth.authenticationStatus;
 
   if (authStatus === AuthStatus.Unknown) {
     await store.dispatch("auth/fetchAuthenticatedUser");
-    authStatus = store.getters["auth/authenticationStatus"];
+    authStatus = store.state.auth.authenticationStatus;
   }
 
   if (authStatus === AuthStatus.Authenticated) next();

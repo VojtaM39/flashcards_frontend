@@ -19,18 +19,6 @@ class Sessions extends VuexModule {
 
   public sessionReview: SessionReview | null = null;
 
-  get activeSession(): Session | null {
-    return this.session;
-  }
-
-  get currentFlashcard(): Flashcard | null {
-    return this.flashcard;
-  }
-
-  get activeSessionReview(): SessionReview | null {
-    return this.sessionReview;
-  }
-
   @Mutation
   public saveActiveSession(session: Session): void {
     this.session = session;
