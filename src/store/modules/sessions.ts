@@ -81,16 +81,14 @@ class Sessions extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async getNextFlashcard(sessionId: string): Promise<Flashcard | null> {
+  public async getNextFlashcard(sessionId: string): Promise<Flashcard> {
     const response = await this.sessionsApiService.getNextFlashcard(sessionId);
     this.context.commit("saveCurrentFlashcard", response.data);
     return response.data;
   }
 
   @Action({ rawError: true })
-  public async getSessionReview(
-    sessionId: string
-  ): Promise<SessionReview | null> {
+  public async getSessionReview(sessionId: string): Promise<SessionReview> {
     const response = await this.sessionsApiService.getSessionReview(sessionId);
     this.context.commit("saveActiveSessionReview", response.data);
     return response.data;
