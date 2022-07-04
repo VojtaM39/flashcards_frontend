@@ -1,5 +1,5 @@
 <template>
-  <div id="collection-detail-view">
+  <div id="collection-detail-view" v-show="!loading">
     <FlashcardModal
       :open="isFlashcardModalOpen"
       :type="flashcardModalType"
@@ -78,6 +78,7 @@ export default class CollectionDetailView extends Vue {
   isFlashcardModalOpen = false;
   flashcardModalData: FlashcardModalData = this.getDefaultFlashcardModalData();
   flashcardModalType: ModalType = ModalType.Create;
+  loading = true;
 
   @flashcards.Action
   public fetchCollection!: (collectionId: string) => Promise<Collection>;
@@ -112,12 +113,14 @@ export default class CollectionDetailView extends Vue {
   @flashcards.Getter
   public collectionFlashcardsPage!: number;
 
-  beforeMount() {
-    this.fetchCollection(this.getCollectionId());
-    this.fetchCollectionFlashcards({
-      collectionId: this.getCollectionId(),
-      page: 1,
-    });
+  created() {
+    Promise.all([
+      this.fetchCollection(this.getCollectionId()),
+      this.fetchCollectionFlashcards({
+        collectionId: this.getCollectionId(),
+        page: 1,
+      }),
+    ]).then(() => (this.loading = false));
   }
 
   openAddFlashcardModal() {

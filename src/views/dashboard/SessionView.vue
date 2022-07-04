@@ -1,6 +1,6 @@
 <template>
   <div id="session-view">
-    <div class="flashcard" v-if="currentFlashcard !== null">
+    <div class="flashcard" v-show="!loading">
       <MainHeader header="Learning session">
         <DashboardButton
           :type="ButtonType.DARK"
@@ -90,6 +90,7 @@ const sessions = namespace("sessions");
 export default class SessionView extends Vue {
   ButtonType = ButtonType;
   revealed = false;
+  loading = true;
 
   @sessions.Action
   public getNextFlashcard!: (sessionId: string) => Promise<Flashcard | null>;
@@ -110,8 +111,8 @@ export default class SessionView extends Vue {
   @sessions.Getter
   public currentFlashcard!: Flashcard | null;
 
-  beforeMount() {
-    this.getNextFlashcard(this.sessionId);
+  created() {
+    this.getNextFlashcard(this.sessionId).then(() => (this.loading = false));
   }
 
   handleRevealClick() {

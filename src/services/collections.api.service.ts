@@ -15,7 +15,7 @@ export default class CollectionsApiService extends ApiService {
     page: number
   ): Promise<ApiResponse<Paginated<Collection>>> {
     return await this.get<ApiResponse<Paginated<Collection>>>(
-      `user/me?page=${page}&per_page=5`
+      `user/me?page=${page}`
     );
   }
 

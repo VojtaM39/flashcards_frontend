@@ -21,7 +21,7 @@
         @click="openNewCollectionModal"
       />
     </MainHeader>
-    <div class="content">
+    <div class="content" v-show="!loading">
       <ItemGrid
         :load-more="!authCollectionsIsLastPage"
         @more="fetchMoreCollections"
@@ -80,6 +80,7 @@ export default class CollectionsView extends Vue {
   startSessionModalData: SessionModalData = this.getDefaultSessionModalData();
   newCollectionModalData: NewCollectionModalData =
     this.getDefaultNewCollectionModalData();
+  loading = true;
 
   @flashcards.Action
   public fetchAuthenticatedUserCollections!: (
@@ -105,8 +106,10 @@ export default class CollectionsView extends Vue {
   @flashcards.Getter
   public authCollectionsIsLastPage!: boolean;
 
-  beforeMount() {
-    this.fetchAuthenticatedUserCollections(1);
+  created() {
+    this.fetchAuthenticatedUserCollections(1).then(
+      () => (this.loading = false)
+    );
   }
 
   openNewCollectionModal() {

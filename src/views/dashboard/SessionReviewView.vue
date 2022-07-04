@@ -2,7 +2,7 @@
   <div id="session-review-view">
     <MainHeader header="Session review" />
 
-    <div class="session-review">
+    <div class="session-review" v-show="!loading">
       <div
         class="session-review__stats"
         v-if="this.activeSessionReview !== null"
@@ -54,6 +54,7 @@ const sessions = namespace("sessions");
 })
 export default class SessionReviewView extends Vue {
   ButtonType = ButtonType;
+  loading = true;
 
   @sessions.Action
   public getSessionReview!: (
@@ -63,8 +64,8 @@ export default class SessionReviewView extends Vue {
   @sessions.Getter
   public activeSessionReview!: SessionReview | null;
 
-  beforeMount() {
-    this.getSessionReview(this.sessionId);
+  created() {
+    this.getSessionReview(this.sessionId).then(() => (this.loading = false));
   }
 
   handleCloseReviewClick() {
