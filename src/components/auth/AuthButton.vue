@@ -13,7 +13,6 @@ export default class AuthButton extends Vue {
   readonly value!: string;
 
   handleSubmit() {
-    console.log("click");
     this.$emit("submit");
   }
 }

@@ -11,6 +11,11 @@
       v-model="password"
     />
     <AuthButton value="Login" @submit="handleLogin" />
+    <AuthInfo
+      >Not registered yet?
+      <router-link :to="{ name: 'register' }">Create an account</router-link
+      >.</AuthInfo
+    >
   </AuthLayout>
 </template>
 
@@ -19,6 +24,7 @@ import { Options, Vue } from "vue-class-component";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import AuthInput from "@/components/auth/AuthInput.vue";
 import AuthButton from "@/components/auth/AuthButton.vue";
+import AuthInfo from "@/components/auth/AuthInfo.vue";
 import InputType from "@/types/input.type";
 import { LoginUserDto, RegisterUserDto } from "@/dtos/user.dto";
 import { namespace } from "vuex-class";
@@ -31,6 +37,7 @@ const auth = namespace("auth");
     AuthLayout,
     AuthInput,
     AuthButton,
+    AuthInfo,
   },
 })
 export default class LoginView extends Vue {
