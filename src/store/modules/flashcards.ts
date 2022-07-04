@@ -1,7 +1,6 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import CollectionsApiService from "@/services/collections.api.service";
 import FlashcardsApiService from "@/services/flashcards.api.service";
-import { ApiCallException } from "@/exceptions/apicall.exception";
 import { Collection } from "@/interfaces/collection.interface";
 import { CreateCollectionDto } from "@/dtos/collection.dto";
 import { Flashcard } from "@/interfaces/flashcard.interface";
@@ -104,119 +103,76 @@ class Flashcards extends VuexModule {
   public async fetchAuthenticatedUserCollections(
     page: number
   ): Promise<Paginated<Collection>> {
-    return new Promise((resolve, reject) => {
-      this.collectionsApiService
-        .authUserCollections(page)
-        .then((response) => {
-          if (page === 1)
-            this.context.commit("saveAuthUserCollections", response.data);
-          else this.context.commit("appendAuthUserCollections", response.data);
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.collectionsApiService.authUserCollections(page);
+
+    if (page === 1)
+      this.context.commit("saveAuthUserCollections", response.data);
+    else this.context.commit("appendAuthUserCollections", response.data);
+
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async createCollection(
     createCollectionData: CreateCollectionDto
   ): Promise<Collection> {
-    return new Promise((resolve, reject) => {
-      this.collectionsApiService
-        .createCollection(createCollectionData)
-        .then((response) => {
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.collectionsApiService.createCollection(
+      createCollectionData
+    );
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async fetchCollection(collectionId: string): Promise<Collection> {
-    return new Promise((resolve, reject) => {
-      this.collectionsApiService
-        .collectionById(collectionId)
-        .then((response) => {
-          this.context.commit("saveCollectionDetail", response.data);
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.collectionsApiService.collectionById(
+      collectionId
+    );
+    this.context.commit("saveCollectionDetail", response.data);
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async createFlashcard(
     createFlashcardData: CreateFlashcardDto
   ): Promise<Flashcard> {
-    return new Promise((resolve, reject) => {
-      this.flashcardsApiService
-        .createFlashcard(createFlashcardData)
-        .then((response) => {
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.flashcardsApiService.createFlashcard(
+      createFlashcardData
+    );
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async editFlashcard(
     editFlashcardData: EditFlashcardDto
   ): Promise<Flashcard> {
-    return new Promise((resolve, reject) => {
-      this.flashcardsApiService
-        .editFlashcard(editFlashcardData)
-        .then((response) => {
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.flashcardsApiService.editFlashcard(
+      editFlashcardData
+    );
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async deleteFlashcard(flashcardId: string): Promise<Flashcard> {
-    return new Promise((resolve, reject) => {
-      this.flashcardsApiService
-        .deleteFlashcard(flashcardId)
-        .then((response) => {
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.flashcardsApiService.deleteFlashcard(
+      flashcardId
+    );
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async fetchCollectionFlashcards(
     fetchCollectionFlashcardsData: FetchCollectionFlashcardsDto
   ): Promise<Paginated<Flashcard>> {
-    return new Promise((resolve, reject) => {
-      this.flashcardsApiService
-        .getFlashcardsByCollection(
-          fetchCollectionFlashcardsData.collectionId,
-          fetchCollectionFlashcardsData.page
-        )
-        .then((response) => {
-          if (fetchCollectionFlashcardsData.page === 1)
-            this.context.commit("saveCollectionFlashcards", response.data);
-          else this.context.commit("appendCollectionFlashcards", response.data);
+    const response = await this.flashcardsApiService.getFlashcardsByCollection(
+      fetchCollectionFlashcardsData.collectionId,
+      fetchCollectionFlashcardsData.page
+    );
 
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    if (fetchCollectionFlashcardsData.page === 1)
+      this.context.commit("saveCollectionFlashcards", response.data);
+    else this.context.commit("appendCollectionFlashcards", response.data);
+
+    return response.data;
   }
 }
 export default Flashcards;

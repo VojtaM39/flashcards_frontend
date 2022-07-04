@@ -1,5 +1,4 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import { ApiCallException } from "@/exceptions/apicall.exception";
 import { Session } from "@/interfaces/session.interface";
 import SessionsApiService from "@/services/sessions.api.service";
 import {
@@ -51,83 +50,50 @@ class Sessions extends VuexModule {
   public async createSession(
     createSessionData: CreateSessionDto
   ): Promise<Session> {
-    return new Promise((resolve, reject) => {
-      this.sessionsApiService
-        .createSession(createSessionData)
-        .then((response) => {
-          this.context.commit("saveActiveSession", response.data);
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.sessionsApiService.createSession(
+      createSessionData
+    );
+    this.context.commit("saveActiveSession", response.data);
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async updateSession(
     updateSessionData: UpdateSessionDto
   ): Promise<Session> {
-    return new Promise((resolve, reject) => {
-      this.sessionsApiService
-        .updateSession(updateSessionData.id, updateSessionData.body)
-        .then((response) => {
-          this.context.commit("saveActiveSession", response.data);
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.sessionsApiService.updateSession(
+      updateSessionData.id,
+      updateSessionData.body
+    );
+    this.context.commit("saveActiveSession", response.data);
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async updateFlashcardStat(
     updateFlashcardStatData: UpdateFlashcardStatDto
   ): Promise<FlashcardSessionStat> {
-    return new Promise((resolve, reject) => {
-      this.sessionsApiService
-        .updateFlashcardStat(updateFlashcardStatData)
-        .then((response) => {
-          this.context.commit("saveActiveSession", response.data.session);
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.sessionsApiService.updateFlashcardStat(
+      updateFlashcardStatData
+    );
+    this.context.commit("saveActiveSession", response.data.session);
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async getNextFlashcard(sessionId: string): Promise<Flashcard | null> {
-    return new Promise((resolve, reject) => {
-      this.sessionsApiService
-        .getNextFlashcard(sessionId)
-        .then((response) => {
-          this.context.commit("saveCurrentFlashcard", response.data);
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.sessionsApiService.getNextFlashcard(sessionId);
+    this.context.commit("saveCurrentFlashcard", response.data);
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async getSessionReview(
     sessionId: string
   ): Promise<SessionReview | null> {
-    return new Promise((resolve, reject) => {
-      this.sessionsApiService
-        .getSessionReview(sessionId)
-        .then((response) => {
-          this.context.commit("saveActiveSessionReview", response.data);
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.sessionsApiService.getSessionReview(sessionId);
+    this.context.commit("saveActiveSessionReview", response.data);
+    return response.data;
   }
 }
 export default Sessions;

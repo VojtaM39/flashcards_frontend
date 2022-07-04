@@ -2,7 +2,6 @@ import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import AuthApiService from "@/services/auth.api.service";
 import { User } from "@/interfaces/user.interface";
 import { LoginUserDto, RegisterUserDto } from "@/dtos/user.dto";
-import { ApiCallException } from "@/exceptions/apicall.exception";
 import AuthStatus from "@/types/auth.type";
 
 @Module({ namespaced: true })
@@ -44,78 +43,34 @@ class Auth extends VuexModule {
 
   @Action({ rawError: true })
   public async fetchAuthenticatedUser(): Promise<User> {
-    return new Promise((resolve, reject) => {
-      this.authApiService
-        .authUser()
-        .then((response) => {
-          this.context.commit("saveAuthenticatedUser", response.data);
-          this.context.commit(
-            "saveAuthenticationStatus",
-            AuthStatus.Authenticated
-          );
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.authApiService.authUser();
+    this.context.commit("saveAuthenticatedUser", response.data);
+    this.context.commit("saveAuthenticationStatus", AuthStatus.Authenticated);
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async signup(registerUserDto: RegisterUserDto): Promise<User> {
-    return new Promise((resolve, reject) => {
-      this.authApiService
-        .signup(registerUserDto)
-        .then((response) => {
-          this.context.commit("saveAuthenticatedUser", response.data);
-          this.context.commit(
-            "saveAuthenticationStatus",
-            AuthStatus.Authenticated
-          );
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.authApiService.signup(registerUserDto);
+    this.context.commit("saveAuthenticatedUser", response.data);
+    this.context.commit("saveAuthenticationStatus", AuthStatus.Authenticated);
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async login(loginUserDto: LoginUserDto): Promise<User> {
-    return new Promise((resolve, reject) => {
-      this.authApiService
-        .login(loginUserDto)
-        .then((response) => {
-          this.context.commit("saveAuthenticatedUser", response.data);
-          this.context.commit(
-            "saveAuthenticationStatus",
-            AuthStatus.Authenticated
-          );
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.authApiService.login(loginUserDto);
+    this.context.commit("saveAuthenticatedUser", response.data);
+    this.context.commit("saveAuthenticationStatus", AuthStatus.Authenticated);
+    return response.data;
   }
 
   @Action({ rawError: true })
   public async logout(): Promise<User> {
-    return new Promise((resolve, reject) => {
-      this.authApiService
-        .logout()
-        .then((response) => {
-          this.context.commit("clearAuthenticatedUser");
-          this.context.commit(
-            "saveAuthenticationStatus",
-            AuthStatus.Unauthenticated
-          );
-          resolve(response.data);
-        })
-        .catch((error: ApiCallException) => {
-          reject(error);
-        });
-    });
+    const response = await this.authApiService.logout();
+    this.context.commit("clearAuthenticatedUser");
+    this.context.commit("saveAuthenticationStatus", AuthStatus.Unauthenticated);
+    return response.data;
   }
 }
 export default Auth;
