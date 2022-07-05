@@ -3,13 +3,11 @@ import { ApiCallException } from "@/exceptions/apicall.exception";
 import { ApiResponse } from "@/interfaces/apiresponse.interface";
 
 export default class ApiService {
-  readonly BASE_URL = "http://127.0.0.1:3000/api";
-
   protected axiosInstance: AxiosInstance;
 
   constructor(baseEndpoint: string) {
     this.axiosInstance = axios.create({
-      baseURL: `${this.BASE_URL}/${baseEndpoint}`,
+      baseURL: `${process.env.VUE_APP_BASE_URL}/${baseEndpoint}`,
       withCredentials: true,
     });
   }

@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import AuthLayout from "@/layouts/AuthLayout.vue";
+import AuthLayout from "@/components/auth/AuthLayout.vue";
 import AuthInput from "@/components/auth/AuthInput.vue";
 import AuthButton from "@/components/auth/AuthButton.vue";
 import AuthInfo from "@/components/auth/AuthInfo.vue";
