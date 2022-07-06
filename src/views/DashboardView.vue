@@ -34,4 +34,8 @@ export default class DashboardView extends Vue {}
   justify-content: space-between;
   padding: 1rem 2rem;
 }
+
+.page-wrapper {
+  padding-bottom: 2rem;
+}
 </style>
