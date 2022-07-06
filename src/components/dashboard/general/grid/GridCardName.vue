@@ -17,5 +17,10 @@ export default class GridCardName extends Vue {
   font-weight: 500;
   color: #000;
   font-size: 1.1rem;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

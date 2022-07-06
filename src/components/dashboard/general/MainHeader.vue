@@ -80,6 +80,7 @@ export default class MainHeader extends Vue {
   font-weight: 700;
   margin-bottom: 0;
   margin-right: 0.8rem;
+  word-break: break-word;
 
   @include media-breakpoint-down(md) {
     font-size: 1.4rem;

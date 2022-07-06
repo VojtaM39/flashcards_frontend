@@ -233,10 +233,10 @@ export default class SessionView extends Vue {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 2.6rem 1.4rem;
   width: 100%;
-  min-height: 40vh;
   position: relative;
+  height: 45vh;
 
   &:nth-child(1) {
     border-right: $border-separator;
@@ -250,6 +250,8 @@ export default class SessionView extends Vue {
 
 .flashcard-detail__text {
   font-size: 1.5rem;
+  word-break: break-word;
+  overflow-y: auto;
 }
 
 .flashcard-detail__reveal {
