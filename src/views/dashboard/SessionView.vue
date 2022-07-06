@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <div class="flashcard-detail">
+      <div class="flashcard-detail" v-if="flashcard !== null">
         <div
           class="flashcard-detail__section flashcard-detail__section--question"
         >
