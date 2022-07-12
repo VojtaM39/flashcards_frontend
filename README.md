@@ -1,4 +1,12 @@
-# frontend
+# Flashcards example app frontend repository
+
+## Application overview
+The application was inspired by [Quizlet](https://quizlet.com). It allows users to create their own flashcard collections and then try to memorize them.
+
+## Technical overview
+Project is using vue3 with typescript and class-style components. 
+For state managment is used vuex store with library vuex-module-decorators.
+
 
 ## Project setup
 ```
@@ -18,7 +26,11 @@ yarn build
 ### Lints and fixes files
 ```
 yarn lint
+
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Run in docker
+```
+docker build -t frontend .
+docker run -d -p 8080:80 frontend
+```
