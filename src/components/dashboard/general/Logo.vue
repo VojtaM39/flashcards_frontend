@@ -25,8 +25,8 @@ export default class Logo extends Vue {
 $text-color: #000;
 
 .logo-text {
-  font-family: "Inter", sans-serif;
-  font-weight: 700;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
   font-size: 2rem;
   color: $text-color;
   text-decoration: none;
@@ -38,7 +38,6 @@ $text-color: #000;
 
 .logo-text_letter--outlined {
   color: $primary-background;
-  text-shadow: 1px 1px 0 $text-color, -1px -1px 0 $text-color,
-    1px -1px 0 $text-color, -1px 1px 0 $text-color, 1px 1px 0 $text-color;
+  -webkit-text-stroke: 1px $text-color;
 }
 </style>
